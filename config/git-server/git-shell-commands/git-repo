@@ -1,0 +1,12 @@
+#!/bin/sh
+case "$1" in
+	new)
+		git -C $HOME init --bare "$2"
+		;;
+	delete)
+		rm -rf "$2"
+		;;
+	rename)
+		mv "$2" "$3"
+		;;
+esac
