@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+install_packages(){
+	echo '### Installing packages...'
+	doas pkg_add \
+		bash \
+		zsh \
+		neovim \
+		kakoune \
+		zellij
+	echo '### Packages installed!'
+}
+
+echo "## Starting Dotfiles install"
+install_packages
+install-tmux-plugins
+echo "## Done!"
+
