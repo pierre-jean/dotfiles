@@ -8,3 +8,11 @@ ENV=.config/ksh/kshrc
 export ENV
 . $HOME/.personal
 
+# Locale
+LC_ALL=en_GB.UTF-8
+export LC_ALL
+
+# tmux
+TERM=tmux-256color
+TMUX_PLUGIN_MANAGER_PATH=$HOME/.config/tmux/plugins
+export TERM TMUX_PLUGIN_MANAGER_PATH
