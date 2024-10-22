@@ -2,11 +2,23 @@
 #
 # sh/ksh initialization
 
+# Include local binary path
 PATH=$HOME/bin:$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin
-export PATH HOME TERM
+export PATH HOME
+
+# ENV is loaded by KSH shell and ignore by other
 ENV=.config/ksh/kshrc
 export ENV
-. $HOME/.personal
+
+# Load extra info
+PROFILE_D="$HOME/.local/share/profile.d"
+if [ -d  "$PROFILE_D" ];
+then
+  for profile_file in "$PROFILE_D"/**
+  do
+    . "$profile_file"
+  done
+fi
 
 # Locale
 LC_ALL=en_GB.UTF-8
