@@ -12,6 +12,8 @@
       nixpkgs,
       flake-utils,
     }:
+    let machines = import ./machines.nix;
+    in
     (flake-utils.lib.eachDefaultSystem (
       system:
       import ./outputs.nix {
@@ -19,11 +21,6 @@
         inherit system;
       }
     ))
-    // {
-      nixosConfigurations.slim = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./machines/slim/configuration.nix ];
-      };
-    };
+    //
+    { nixosConfigurations = (builtins.mapAttrs (host: system:  nixpkgs.lib.nixosSystem { inherit system; pkgs = nixpkgs.legacyPackages.${system}; modules = [ ./machines/${host}/configuration.nix ]; }) machines );};
 }
