@@ -3,7 +3,7 @@
 {
   #nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [ kakoune coreutils ];
+  environment.systemPackages = (import ../cli-packages.nix { inherit pkgs; }) ++ (import ../desktop-packages.nix { inherit pkgs; } ) ;
 
   nix = {
       settings.experimental-features = ["nix-command flakes"];
@@ -18,16 +18,4 @@
           dates = [ "weekly" ];
       };
   };
-  # system = {
-      # autoUpgrade = {
-          # enable = true;
-          # flake = "gitlab:fladnix/machines";
-          # dates = "daily";
-          # flags = [
-              # "--recreate-lock-file"
-              # "--no-write-lock-file"
-              # "-L" # print build logs
-          # ];
-      # };
-  # };
 }
