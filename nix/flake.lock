@@ -93,7 +93,7 @@
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": [
           "nixos-cosmic",
-          "nixpkgs"
+          "nixpkgs-stable"
         ]
       }
     },

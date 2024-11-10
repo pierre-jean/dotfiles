@@ -2,9 +2,9 @@
   description = "A very basic flake";
 
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs.follows = "nixos-cosmic/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.follows = "nixos-cosmic/nixpkgs-stable";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     flake-utils.url = "github:numtide/flake-utils";
   };
