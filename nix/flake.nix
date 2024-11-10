@@ -12,8 +12,7 @@
       nixpkgs,
       flake-utils,
     }:
-    let machines = import ./machines.nix;
-    in
+    ### packages pack to install as profiles on any nix machine
     (flake-utils.lib.eachDefaultSystem (
       system:
       import ./outputs.nix {
@@ -21,6 +20,17 @@
         inherit system;
       }
     ))
-    //
-    { nixosConfigurations = (builtins.mapAttrs (host: system:  nixpkgs.lib.nixosSystem { inherit system; pkgs = nixpkgs.legacyPackages.${system}; modules = [ ./machines/${host}/configuration.nix ]; }) machines );};
+    ### nixos configurations for all my nixos machines
+    // {
+      nixosConfigurations = (
+        builtins.mapAttrs (
+          host: system:
+          nixpkgs.lib.nixosSystem {
+            inherit system;
+            pkgs = nixpkgs.legacyPackages.${system};
+            modules = [ ./machines/${host}/configuration.nix ];
+          }
+        ) (import ./machines.nix)
+      );
+    };
 }
