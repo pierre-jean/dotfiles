@@ -1,12 +1,6 @@
-[submodule "config/tmux/.config/tmux/plugins/tpm"]
-	path = config/tmux/.config/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-[submodule "config/tmux/.config/tmux/plugins/catppuccin/tmux"]
-	path = config/tmux/.config/tmux/plugins/catppuccin/tmux
+[submodule "base/tmux/dot-config/tmux/plugins/catppuccin/tmux"]
+	path = base/tmux/dot-config/tmux/plugins/catppuccin/tmux
 	url = https://github.com/catppuccin/tmux.git
-[submodule "base/tmux/.config/tmux/plugins/catppuccin/tmux"]
-	path = base/tmux/.config/tmux/plugins/catppuccin/tmux
-	url = https://github.com/catppuccin/tmux.git
-[submodule "base/tmux/.config/tmux/plugins/tpm"]
-	path = base/tmux/.config/tmux/plugins/tpm
+[submodule "base/tmux/dot-config/tmux/plugins/tpm"]
+	path = base/tmux/dot-config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
