@@ -1,7 +1,6 @@
 { pkgs, ...}:
 	with pkgs;
 [
-    nix # If not on NixOS, this is important!
     nh
 
     (nerdfonts.override { fonts = ["JetBrainsMono"]; }) # not sure if it works if not put in fonts.packages
