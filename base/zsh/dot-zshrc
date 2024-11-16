@@ -12,3 +12,5 @@ zstyle :compinstall filename '/home/animus/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+if [ -e /home/animus/.nix-profile/etc/profile.d/nix.sh ]; then . /home/animus/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
