@@ -1,0 +1,4 @@
+stylesheet=solarized-dark.css
+key_up=Control_L-p
+key_down=Control_L-n
+key_expand=Control_L-space
