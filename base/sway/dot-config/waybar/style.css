@@ -1,3 +1,5 @@
+@import "themes/macchiato.css";
+
 * {
     border: none;
     border-radius: 0;
@@ -7,12 +9,12 @@
     min-height: 0;
     padding: 0;
     margin: 0;
-    background-color: #002b36;
-    color: #839496;
+    background-color: @base;
+    color: @text;
 }
 
 window#waybar {
-    border-bottom: 3px solid #839496;
+    border-bottom: 3px solid @crust;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -37,14 +39,14 @@ window#waybar.solo {
 
 #workspaces button {
     /* Use box-shadow instead of border so the text isn't offset */
-    border-bottom: 3px solid #839496;
+    border-bottom: 3px solid @text;
     padding: 0 10px;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
 	color: inherit;
-	border-bottom: 3px solid #eee8d5;
+	border-bottom: 3px solid @crust;
     box-shadow: inherit;
     text-shadow: inherit;
     background: inherit;
@@ -58,24 +60,24 @@ window#waybar.solo {
 
 
 #workspaces button.focused {
-    color: #dc322f;
-    border-bottom: 3px solid #dc322f;
-    background-color: #073642;
+    color: @red;
+    border-bottom: 3px solid @red;
+    background-color: shade(@base, 0.9);
 }
 
 #workspaces button.focused * {
-    color: #dc322f;
-    background-color: #073642;
+    color: @red;
+    background-color: @base;
 }
 
 #workspaces button.urgent {
-    background-color: #cb4b16;
-    color: #002b36;
+    background-color: @pink;
+    color: @text;
 }
 
 #clock {
     /* Use box-shadow instead of border so the text isn't offset */
-    border-bottom: 3px solid #839496;
+    border-bottom: 3px solid @text;
     padding: 0 10px;
 }
 
@@ -116,11 +118,11 @@ window#waybar.solo {
 }
 
 #battery {
-    color: #839496;
+    color: @text;
 }
 
 #battery.charging, #battery.plugged {
-    color: #859900;
+    color: @green;
 }
 
 @keyframes blink {
@@ -131,8 +133,8 @@ window#waybar.solo {
 }
 
 #battery.critical:not(.charging) {
-    background-color: #dc322f;
-    color: #eee8d5;
+    background-color: @overlay2;
+    color: @red;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -141,7 +143,7 @@ window#waybar.solo {
 }
 
 label:focus {
-    background-color: #000000;
+    background-color: @text;
 }
 
 #network {

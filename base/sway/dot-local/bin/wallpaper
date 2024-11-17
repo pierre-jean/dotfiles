@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+WALLPAPERS_DIR="${WALLPAPERS_DIR:-$HOME/Pictures/wallpapers}"
+WALLPAPER_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers"
+SAVED_WALLPAPER="$WALLPAPER_DATA_DIR"/current
+DEFAULT_WALLPAPER="$WALLPAPER_DATA_DIR"/default
+
+display(){
+    if [ -f "$1" ]; then
+	    swaymsg output "*" background "$1" fill
+	    ln -sf "$(realpath "$1")" "$SAVED_WALLPAPER"
+    else
+	    >&2 echo "Invalid wallpaper path, setting up default wallpaper"
+	    swaymsg output "*" background "$DEFAULT_WALLPAPER" fill
+	    ln -sf "$(realpath "$DEFAULT_WALLPAPER")" "$SAVED_WALLPAPER"
+	    exit 1;
+    fi
+}
+
+display_random_from(){
+    if [ -d "$1" ]; then
+                echo "Debug arg: $1"
+		picked=$(find "$1" | shuf | head -n 1)
+		echo "Setting up $picked as wallpaper"
+		display "$picked"
+    else
+	    >&2 echo "$1 is not a valid directory"
+	    exit 1;
+    fi
+}
+
+mkdir -p "$WALLPAPER_DATA_DIR";
+if [ "$#" -eq 0 ]; then
+	display "${SAVED_WALLPAPER:-$DEFAULT_WALLPAPER}";
+else
+	case "$1" in
+ 		"--random") display_random_from "${2:-$WALLPAPERS_DIR}";;
+ 		*) display "$1";;
+	esac
+fi
+
+# wallpaper
+# wallpaper ./path_to_wall_paper
+# wallpaper --random
+# wallpaper --random-from ./path_to_directory
