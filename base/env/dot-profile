@@ -6,6 +6,9 @@ export PATH
 ENV=.config/ksh/kshrc
 export ENV
 
+# Recent bug of locale after installing nix
+export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
+
 # Load extra info
 PROFILE_D="$HOME/.local/share/profile.d"
 if [ -d  "$PROFILE_D" ];
