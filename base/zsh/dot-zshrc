@@ -24,3 +24,7 @@ if [ -e /home/animus/.nix-profile/etc/profile.d/nix.sh ]; then . /home/animus/.n
 # Zoxide
 eval "$(zoxide init zsh)"
 alias zz='z'
+
+# Alias lazigit
+alias lg='lazygit'
+
