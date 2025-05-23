@@ -12,6 +12,9 @@ zstyle :compinstall filename '$HOME/.zshrc'
 # Starship
 eval "$(starship init zsh)"
 
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
