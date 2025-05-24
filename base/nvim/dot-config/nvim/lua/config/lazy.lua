@@ -51,5 +51,3 @@ require("lazy").setup({
     },
   },
 })
-
-require("keymaps.markdown").setup()
