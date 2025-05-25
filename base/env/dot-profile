@@ -1,3 +1,6 @@
+export EDITOR=nvim
+export BROWSER=offpunk
+
 # Include local binary path
 PATH=$HOME/bin:$HOME/.local/bin:$PATH
 export PATH
@@ -11,10 +14,8 @@ export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
 
 # Load extra info
 PROFILE_D="$HOME/.local/share/profile.d"
-if [ -d  "$PROFILE_D" ];
-then
-  for profile_file in "$PROFILE_D"/**
-  do
+if [ -d "$PROFILE_D" ]; then
+  for profile_file in "$PROFILE_D"/**; do
     . "$profile_file"
   done
 fi
