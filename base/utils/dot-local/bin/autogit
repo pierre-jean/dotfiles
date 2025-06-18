@@ -1,0 +1,92 @@
+#!/usr/bin/env sh
+
+#####################
+
+DELAY=""
+GROUP_ID=""
+TMP_DIR="${TMPDIR:-/tmp}"
+TMP_DIR="${TMPDIR%/}"
+DEBOUNCE_DIR="$TMP_DIR/debounce"
+
+parse_args() {
+  # First pass for long options
+  while [ $# -gt 0 ]; do
+    case "$1" in
+    --delay=*)
+      DELAY="${1#*=}"
+      shift
+      ;;
+    --group-id=*)
+      GROUP_ID="${1#*=}"
+      shift
+      ;;
+    --delay | --group-id)
+      # Handle long options with separate values
+      if [ -n "$2" ]; then
+        case "$1" in
+        --delay)
+          DELAY="$2"
+          ;;
+        --group-id)
+          GROUP_ID="$2"
+          ;;
+        esac
+        shift 2
+      else
+        echo "Error: $1 requires a value"
+        exit 1
+      fi
+      ;;
+    -*)
+      break
+      ;;
+    *)
+      break
+      ;;
+    esac
+  done
+
+  # Parse short options
+  while getopts "d:g:" opt; do
+    case "$opt" in
+    d)
+      DELAY="$OPTARG"
+      ;;
+    g)
+      GROUP_ID="$OPTARG"
+      ;;
+    \?)
+      echo "Usage: $0 [-d delay] [-g group-id] [--delay VAL] [--group-id VAL]"
+      exit 1
+      ;;
+    esac
+  done
+
+  shift $((OPTIND - 1))
+  COMMAND_TO_RUN="$@"
+
+  # Set default values if not provided
+  [ -z "$DELAY" ] && DELAY="1"                                                                           # Default delay in ms
+  [ -z "$GROUP_ID" ] && GROUP_ID=$(printf "%s:%s" "$PWD" "$COMMAND_TO_RUN" | cksum | awk '{ print $1 }') # Default Group ID from the current folder and the command to be run (if not passed as arg)
+  LOCK_FILE="$DEBOUNCE_DIR/$GROUP_ID"
+}
+
+debounce() {
+  mkdir -p "$DEBOUNCE_DIR"
+  if [ -f "$LOCK_FILE" ]; then
+    exit 1
+  fi
+  touch "$LOCK_FILE"
+  sleep "$DELAY"
+  eval "set -- $COMMAND_TO_RUN"
+  "$@"
+}
+
+cleanup() {
+  rm "$LOCK_FILE"
+}
+
+parse_args "$@"
+debounce
+
+trap "cleanup" SIGINT SIGTERM EXIT
