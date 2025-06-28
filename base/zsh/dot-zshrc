@@ -19,8 +19,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-if [ -e /home/animus/.nix-profile/etc/profile.d/nix.sh ]; then . /home/animus/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
 # Zoxide
 eval "$(zoxide init zsh)"
 alias zz='z'
@@ -28,3 +26,5 @@ alias zz='z'
 # Alias lazigit
 alias lg='lazygit'
 
+# Rust
+. $HOME/.cargo/env
