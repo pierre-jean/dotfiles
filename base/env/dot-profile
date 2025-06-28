@@ -1,3 +1,6 @@
+export EDITOR=nvim
+export BROWSER=offpunk
+
 # Include local binary path
 PATH=$HOME/bin:$HOME/.local/bin:$PATH
 export PATH
@@ -27,3 +30,7 @@ export LC_ALL
 # tmux
 TMUX_PLUGIN_MANAGER_PATH=$HOME/.config/tmux/plugins
 export TERM TMUX_PLUGIN_MANAGER_PATH
+
+# RUST
+CARGO_HOME=$HOME/.local/share/cargo
+RUSTUP_HOME=$HOME/.local/share/rustup

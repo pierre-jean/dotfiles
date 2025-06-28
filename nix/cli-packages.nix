@@ -70,4 +70,7 @@
     ### bluetooth
     bluez
     bluez-tools
+
+    ### security
+    bitwarden-cli
 ]
