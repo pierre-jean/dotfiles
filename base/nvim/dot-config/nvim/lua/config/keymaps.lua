@@ -62,7 +62,7 @@ end
 wk.add({
   { "<leader>m", group = "Markdown actions" },
   { "<leader>ma", "ggVG:s/\\[ \\]/[X]/g<CR>", desc = "Check all" },
-  { "<leader>mx", toggleCheckbox, desc = "Toggle checkbox" },
+  { "<leader>mx", toggleCheckbox, desc = "Toggle checkbox", mode = { "n" } },
   { "<leader>mc", toggleCheckboxPrefix, desc = "Add/Remove checkbox", mode = { "n" } },
   { "<leader>mc", addCheckboxToSelection, desc = "Add/Remove checkbox", mode = { "v" } },
   { "<leader>mx", toggleCheckboxInSelection, desc = "Toogle checkbox", mode = { "v" } },

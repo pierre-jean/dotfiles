@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# Directories containing git repositories
+REPOS="$HOME/gits/epicgames/notes $HOME/gits/pjbaraud/dotiles"-
+
+# Commit message
+MESSAGE="Auto-commit: $(date '+%Y-%m-%d %H:%M:%S')"
+
+for repo in $REPOS; do
+  [ -d "$repo/.git" ] || continue
+
+  cd "$repo" || continue
+
+  # Check for changes
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo "Committing changes in $repo"
+    git add -A
+    git commit -m "$MESSAGE"
+    git push
+  fi
+done
