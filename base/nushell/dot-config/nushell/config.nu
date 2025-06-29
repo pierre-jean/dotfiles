@@ -18,7 +18,8 @@
 # them for future reference.
 
 $env.EDITOR = "nvim"
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin')
+source ~/.config/nushell/os-specific.nu
+source ~/.config/nushell/homebrew.nu
 source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/completions-jj.nu
 
