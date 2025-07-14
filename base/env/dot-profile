@@ -1,19 +1,16 @@
-export EDITOR=nvim
+export EDITOR=hx
 export BROWSER=offpunk
 
 # Include local binary path
 PATH=$HOME/bin:$HOME/.local/bin:$PATH
 export PATH
 
-# Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # ENV is loaded by KSH shell and ignore by other
 ENV=.config/ksh/kshrc
 export ENV
 
 # Recent bug of locale after installing nix
-export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
+# export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
 
 # Load extra info
 PROFILE_D="$HOME/.local/share/profile.d"
