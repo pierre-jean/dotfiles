@@ -1,0 +1,4 @@
+# Zoxide
+eval "$(zoxide init bash)"
+alias zz='z'
+
