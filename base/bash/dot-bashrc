@@ -1,3 +1,6 @@
+# Source profile
+. .profile
+
 #export SHELL=/run/current-system/sw/bin/bash
 
 # Prioritize System install app over nix ones
@@ -27,4 +30,3 @@ if [ -d ~/.config/bashrc.d ]; then
   done
 fi
 unset rc
-. "$HOME/.cargo/env"
