@@ -27,7 +27,7 @@ alias zz='z'
 alias lg='lazygit'
 
 # Rust
-. $HOME/.cargo/env
+# . $HOME/.cargo/env
 
 # Direnv
 eval "$(direnv hook zsh)"

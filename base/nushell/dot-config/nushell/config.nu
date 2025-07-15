@@ -17,9 +17,10 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
-$env.EDITOR = "nvim"
-source ~/.config/nushell/os-specific.nu
+$env.EDITOR = "hx"
+$env.config.show_banner = false
 source ~/.config/nushell/homebrew.nu
 source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/completions-jj.nu
+source ~/.config/nushell/git.nu
 
