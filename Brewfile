@@ -19,6 +19,8 @@ brew "starship"
 brew "bash"
 # Fish shel;
 brew "fish"
+# ZSH
+brew "zsh"
 # Modern shell for the GitHub era
 brew "nushell"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -49,33 +51,6 @@ brew "gh"
 brew "lazygit"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# App to build and share containerised applications and microservices
-cask "docker"
-# Pack, ship and run any application as a lightweight container
-brew "docker", link: false
-# Kubernetes command-line interfac
-brew "kubectl"
-# Kubernetes package manager
-brew "helm"
-# Kubernetes CLI To Manage Your Clusters In Style!
-brew "k9s"
-# Terraform
-brew "terraform"
-# Epic Substrate AOP AWS helper
-tap "substrate/tap", "git@github.ol.epicgames.net:substrate/homebrew-tap.git"
-brew "substrate/tap/aop"
-# Open source IDE for exploring and testing APIs
-cask "bruno"
-# Collaboration platform for API development
-cask "postman"
-# JetBrains tools manager
-cask "jetbrains-toolbox"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
-# CLI for Keeper
-brew "keeper-commander"
-# JIRA terminal client
-brew "jira-cli"
 
 #################
 #   Multimedia  #
@@ -90,6 +65,8 @@ brew "yt-dlp"
 brew "mpv"
 # Cross-platform ncurses Spotify client written in Rust
 brew "ncspot"
+# Cli image viewer
+brew "chafa"
 
 ##############################
 #   Programming development  #
