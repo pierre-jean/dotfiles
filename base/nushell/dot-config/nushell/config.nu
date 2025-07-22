@@ -20,7 +20,11 @@
 $env.EDITOR = "hx"
 $env.config.show_banner = false
 source ~/.config/nushell/homebrew.nu
+source ~/.config/nushell/mise.nu
+# source ~/.config/nushell/direnv.nu
+# source ~/.config/nushell/nuenv.nu # replace by mise
 source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/completions-jj.nu
 source ~/.config/nushell/git.nu
+source ~/.config/nushell/bitwarden.nu
 
