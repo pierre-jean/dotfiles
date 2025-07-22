@@ -25,3 +25,5 @@ cask "obsidian"
 brew "keeper-commander"
 # JIRA terminal client
 brew "jira-cli"
+# Slack
+cask "slack"
