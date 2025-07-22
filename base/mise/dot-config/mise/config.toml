@@ -1,0 +1,4 @@
+[tools]
+age = "latest"
+java = "corretto-21"
+sops = "latest"
