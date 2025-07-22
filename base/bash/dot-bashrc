@@ -1,5 +1,5 @@
 # Source profile
-. .profile
+. $HOME/.profile
 
 #export SHELL=/run/current-system/sw/bin/bash
 
