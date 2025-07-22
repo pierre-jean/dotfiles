@@ -31,26 +31,63 @@ brew "fd"
 brew "fzf"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# RipGrep but inside archive too
+brew "ripgrep-all"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Disk analyzer
+brew "dust"
+# Disk analyzer bis
+brew "dua-cli"
+# Benchmarking
+brew "hyperfine"
 # Load/unload environment variables based on $PWD
 brew "direnv"
+# Keyboard programming
+brew "kanata"
+# Bitwarden cli
+brew "bitwarden-cli"
+# Unofficial bitwarden client
+brew "rbw"
+# Python package manager
+brew "uv"
+# Autocompletion
+brew "carapace"
 
 ######################
 #   Developer tools  #
 ######################
 # Distributed revision control system
 brew "git"
+# Nicer diff
+brew "git-delta"
 # GitHub command-line tool
 brew "gh"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Http cli
+brew "xh"
+# TUI for http API
+brew "posting"
+# Cli for http calls
+brew "curlie"
+# Show code language proportion in project
+brew "tokei"
+# Task runner in Markdown
+brew "mask"
+# Multiple tasks runner
+brew "mprocs"
+# Direnv + local version of packages
+brew "mise"
+# AI
+brew "gemini-cli"
+
 
 #################
 #   Multimedia  #
@@ -60,6 +97,8 @@ brew "ffmpeg"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # Feature-rich command-line audio/video downloader
+brew "yewtube"
+# Feature-rich command-line audio/video downloader
 brew "yt-dlp"
 # Media player based on MPlayer and mplayer2
 brew "mpv"
@@ -67,6 +106,8 @@ brew "mpv"
 brew "ncspot"
 # Cli image viewer
 brew "chafa"
+# Slides in markdown
+brew "presenterm"
 
 ##############################
 #   Programming development  #
@@ -85,4 +126,5 @@ tap "sdkman/tap"
 brew "nvm"
 # JavaScript package manager
 brew "yarn"
-
+# LSP java
+brew "jdtls"
