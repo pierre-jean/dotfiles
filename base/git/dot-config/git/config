@@ -1,0 +1,8 @@
+[include]
+  path = ./alias.gitconfig
+
+[includeIf "gitdir:/home/animus/gits/pierre-jean/"]
+  path = ./decrypted/pierre-jean.gitconfig
+
+[includeIf "gitdir:/home/animus/gits/epic/"]
+  path = ./decrypted/epic.gitconfig
