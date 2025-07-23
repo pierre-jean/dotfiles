@@ -27,4 +27,4 @@ source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/completions-jj.nu
 source ~/.config/nushell/git.nu
 source ~/.config/nushell/bitwarden.nu
-
+source ~/.config/nushell/carapace.nu
