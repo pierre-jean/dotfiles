@@ -2,3 +2,7 @@
 age = "latest"
 java = "corretto-21"
 sops = "latest"
+
+[env]
+SOPS_AGE_PUBLIC_KEY = "age10juh5a3dwefjsa48r0fmfmkgvvvtu0275ulyxg86ze2jy622945qs4ezjf"
+SOPS_AGE_RECIPIENTS = "age10juh5a3dwefjsa48r0fmfmkgvvvtu0275ulyxg86ze2jy622945qs4ezjf"
