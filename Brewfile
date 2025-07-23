@@ -71,6 +71,8 @@ brew "gh"
 brew "lazygit"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "helix"
 # Http cli
 brew "xh"
 # TUI for http API
