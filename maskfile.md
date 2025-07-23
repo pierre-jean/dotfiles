@@ -100,10 +100,20 @@ cp $HOME/.config/mise/age.txt $HOME/.config/sops/age/keys.txt
 
 ### install ssh
 
+Generate new keys for personal and work use
+
 ```sh
 ssh-keygen -t ed25519 -f $HOME/.ssh/id_ed25519 -N ""
-cd $HOME/gits/pierre-jean/
-gh ssh-key add $HOME/.ssh/id_ed25519.pub
+ssh-keygen -t ed25519 -f $HOME/.ssh/id_epic_ed25519 -N ""
+```
+
+And deploy it on github (the token and variables are different depending on the folder so it will point to different github instances):
+
+```sh
+cd ~/gits/pierre-jean
+gh ssh-key add ~/.ssh/id_ed25519.pub
+cd ~/gits/epic
+gh ssh-key add ~/.ssh/id_epic_ed25519.pub
 ```
 
 ### install encrypted-files
