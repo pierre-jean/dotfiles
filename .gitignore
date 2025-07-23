@@ -1,1 +1,4 @@
 ./config/env/.personal
+**/age/keys.txt
+**/mise/age.txt
+**/decrypted/*
