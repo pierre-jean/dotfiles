@@ -85,6 +85,8 @@ brew "tokei"
 brew "mask"
 # Multiple tasks runner
 brew "mprocs"
+# SOPS encryption
+brew "sops"
 # Direnv + local version of packages
 brew "mise"
 # AI
