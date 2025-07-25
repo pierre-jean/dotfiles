@@ -57,6 +57,8 @@ brew "rbw"
 brew "uv"
 # Autocompletion
 brew "carapace"
+# System monitor
+brew "btop"
 
 ######################
 #   Developer tools  #
