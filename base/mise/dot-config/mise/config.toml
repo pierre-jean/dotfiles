@@ -1,6 +1,6 @@
 [tools]
 age = "latest"
-java = "corretto-21"
+java = "corretto-24.0.2.12.1"
 sops = "latest"
 
 [env]
