@@ -59,6 +59,10 @@ brew "uv"
 brew "carapace"
 # System monitor
 brew "btop"
+# Xargs equivalent
+brew "xe"
+# Netcat, useful for Godot LSP
+brew "nc"
 
 ######################
 #   Developer tools  #

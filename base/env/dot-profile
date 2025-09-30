@@ -23,11 +23,3 @@ fi
 # Locale
 LC_ALL=en_GB.UTF-8
 export LC_ALL
-
-# tmux
-TMUX_PLUGIN_MANAGER_PATH=$HOME/.config/tmux/plugins
-export TERM TMUX_PLUGIN_MANAGER_PATH
-
-# RUST
-CARGO_HOME=$HOME/.local/share/cargo
-RUSTUP_HOME=$HOME/.local/share/rustup

@@ -28,3 +28,6 @@ source ~/.config/nushell/completions-jj.nu
 source ~/.config/nushell/git.nu
 source ~/.config/nushell/bitwarden.nu
 source ~/.config/nushell/carapace.nu
+source ~/.config/nushell/markdown-frontmatter.nu
+source ~/.config/nushell/utils.nu
+source ~/.config/nushell/sops.nu

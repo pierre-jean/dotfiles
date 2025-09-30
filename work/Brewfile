@@ -4,6 +4,10 @@ cask "docker"
 brew "docker", link: false
 # Kubernetes command-line interfac
 brew "kubectl"
+# AWS
+brew "awscli"
+# To login to the infra (from tutorial AOP)
+brew "kubelogin"
 # Kubernetes package manager
 brew "helm"
 # Kubernetes CLI To Manage Your Clusters In Style!

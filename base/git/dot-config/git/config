@@ -6,3 +6,17 @@
 
 [includeIf "gitdir:/home/animus/gits/epic/"]
   path = ./decrypted/epic.gitconfig
+
+[includeIf "gitdir:/home/animus/gits/ai/"]
+  path = ./decrypted/pierre-jean.gitconfig
+
+[init]
+	defaultBranch = main
+
+[rebase]
+	autosquash = true
+	autoStash = true
+	updateRefs = true
+
+[merge]
+	conflictstyle = zdiff3
