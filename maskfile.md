@@ -122,5 +122,5 @@ cd ~/gits/pierre-jean
 gh ssh-key add ~/.ssh/id_ed25519.pub
 cd ~/gits/epic
 gh ssh-key add ~/.ssh/id_epic_ed25519.pub
-git remote --set-url origin git@github.com:pierre-jean/dotfiles.git
+git remote set-url origin git@github.com:pierre-jean/dotfiles.git
 ```
