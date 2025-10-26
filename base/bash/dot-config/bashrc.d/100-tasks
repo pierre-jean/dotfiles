@@ -1,0 +1,97 @@
+set -eu
+print_info() {
+  printf "%s" "$1" >&2
+}
+
+from_args_or_ask(){
+  value=$2
+  [ -z "$2" ] && print_info "$1: " && read -r value
+  echo "$value"
+}
+
+tasks_init() {
+  TODO_FILE="${TASK_TODO_FILE:-$HOME/.local/share/tasks/todo.txt}"
+  DONE_FILE="${TASK_DONE_FILE:-$HOME/.local/share/tasks/done.txt}"
+  todo_folder=$(dirname "$TODO_FILE")
+  done_folder=$(dirname "$DONE_FILE")
+  mkdir -p "$todo_folder" "$done_folder"
+  touch "$TODO_FILE" "$DONE_FILE"
+}
+
+tasks_add() {
+  tasks_init
+  task=$(from_args_or_ask "New task" "$1")
+  echo "$(date +%Y-%m-%d) $task" >> "$TODO_FILE" 
+}
+
+tasks_edit_todo(){
+  tasks_init
+  $EDITOR "$TODO_FILE"
+}
+
+tasks_edit_done(){
+  tasks_init
+  $EDITOR "$DONE_FILE"
+}
+
+tasks_list_todo() {
+  tasks_init
+  # List tasks with line numbers
+  nl -v 1 < "$TODO_FILE"
+}
+
+
+tasks_list_done() {
+  tasks_init
+  # List tasks with line numbers
+  grep "^$(date +%Y-%m-%d)" "$DONE_FILE"
+}
+
+tasks_mark_as_done() {
+  tasks_init
+  line_num=$(from_args_or_ask "Task to complete" "$1")
+  task=$(sed -n "${line_num}p" "$TODO_FILE")
+  [ -n "$task" ] && echo "x $(date +%Y-%m-%d) $task" >> "$DONE_FILE"
+  sed -i "${line_num}d" "$TODO_FILE"
+}
+
+
+tasks_delete(){
+  tasks_init
+  line_num=$(from_args_or_ask "Task to delete" "$1")
+  sed -i "${line_num}d" "$TODO_FILE"
+}
+
+tasks() {
+  while true; do
+    echo "Tasks actions:"
+    echo " 1 - List todo"
+    echo " 2 - List done"
+    echo " 3 - Add task"
+    echo " 4 - Mark tasks as done"
+    echo " 5 - Delete task"
+    echo " 6 - Edit tasks todo"
+    echo " 7 - Edit tasks done"
+    echo " q - Quit"
+    printf "Action: "
+    read -r action
+    case "$action" in
+      1) tasks_list_todo;;
+      2) tasks_list_done;;
+      3) tasks_add "";;
+      4) tasks_mark_as_done "";;
+      5) tasks_delete "";;
+      6) tasks_edit_todo;;
+      7) tasks_edit_done;;
+      q|Q) exit 0
+    esac
+  done
+}
+
+alias ta=tasks_add
+alias tl=tasks_list_todo
+alias tm=tasks_mark_as_done
+alias tld=tasks_list_done
+alias td=tasks_delete
+alias te=tasks_edit_todo
+alias ted=tasks_edit_done

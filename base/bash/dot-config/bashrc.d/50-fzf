@@ -1,2 +1,8 @@
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --bash)
+
+export FZF_ALT_C_OPTS="--preview 'tree -L2 -C {}'"
+
+fze(){
+	fd --type file | fzf --multi --preview 'bat {}' | xe -N0 $EDITOR
+}

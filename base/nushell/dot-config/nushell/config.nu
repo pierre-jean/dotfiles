@@ -31,3 +31,6 @@ source ~/.config/nushell/carapace.nu
 source ~/.config/nushell/markdown-frontmatter.nu
 source ~/.config/nushell/utils.nu
 source ~/.config/nushell/sops.nu
+source ~/.config/nushell/tasks.nu
+source ~/.config/nushell/fzf.nu
+source ~/.config/nushell/todotxt.nu
