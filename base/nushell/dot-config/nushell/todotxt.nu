@@ -10,11 +10,11 @@ def build-ordered-list-menu [name: string, current_state: list<string>, availabl
     let menu  = ($default_actions | append $choices | enumerate | flatten)
     let option = $menu | input list --display label
     if ($option.index == 0) {
-        $current_state
+        return $current_state
     } else if ($option.index == 1) {
-        build-ordered-list-menu $name [] $available_choices
+        return (build-ordered-list-menu $name [] $available_choices)
     } else {
-        build-ordered-list-menu $name ($current_state | append $option.option) $available_choices
+        return (build-ordered-list-menu $name ($current_state | append $option.option) $available_choices)
     }
 }
 
@@ -25,7 +25,7 @@ def action_on_menu [menu, name = ""] {
 }
 
 def action_on_shortcut [menu, name = "Actions (Press Key)"] {
-    let actions = $menu | each { |m| [$m.shortcut] | wrap ($m.label)}
+    let actions = $menu | where { $in | get -o show | $in != false } |each { |m| [$m.shortcut] | wrap ($m.label)}
     mut submenu = $actions | first
     for entry in ($actions | skip 1) {
         $submenu = $submenu | merge $entry
@@ -48,8 +48,20 @@ def create_menu_add_task [ todos, options ] {
     { label: "Add task", shortcut: "a", action: { add_task $todos $options } }
 }
 
+def create_submenu_quick_select [todos, options] {
+    seq 0 9 | each { |n| { label: $"($n)", shortcut: ($n | into string), action: { update_select_numbers $options $n }, show: false } }
+}
+
+def create_submenu_clear_select [ todos, options ] {
+    { label: "Esc", shortcut: "esc", action : { clear_select_numbers $options}, show: false }
+}
+
 def create_menu_modify_tasks [ todos, options ] {
     { label: "Modify tasks", shortcut: "m", action: { modify_tasks $todos $options } }
+}
+
+def create_menu_archive [ todos, options ] {
+    { label: "Clean/Archive", shortcut: "c", action: { archive $todos $options } }
 }
 
 def create_menu_options [ todos, options ] {
@@ -94,8 +106,39 @@ def create_submenu_filters_context [ todos, options ] {
     { label: "Filters by contexts", shortcut: "c", action: { filter_by_contexts $todos $options } }
 }
 
+def create_menu_quick_task [ todos, options ] {
+    let menu = [
+        (create_submenu_quick_check $todos $options)
+        (create_submenu_quick_delete $todos $options)
+        (create_submenu_quick_priority_up $todos $options)
+        (create_submenu_quick_priority_down $todos $options)
+        (create_submenu_quick_deprioritize $todos $options)
+     ]
+    { label: "Quick action", shortcut: "x", action: { action_on_shortcut $menu "Action on selected task" } }
+}
+
 def create_menu_quit [ todos, options ] {
-    { label: "Quit", shortcut: "q", action: { exit 0 }}
+    { label: "Quit", shortcut: "q", action: { reset-selection $options; exit 0 }}
+}
+
+def create_submenu_quick_check [ todos, options ] {
+    { label: "Mark as Done", shortcut: "x", action: { mark_selected_as_done $todos $options }}    
+}
+
+def create_submenu_quick_delete [ todos, options ] {
+    { label: "Delete", shortcut: "d", action: { delete_selected_task $todos $options } }
+}
+
+def create_submenu_quick_priority_up [ todos, options ] {
+    { label: "Priority up", shortcut: "]", action: { priority_up_selected $todos $options }}
+}
+
+def create_submenu_quick_priority_down [ todos, options ] {
+    { label: "Priority down", shortcut: "[", action: { priority_down_selected $todos $options }}
+}
+
+def create_submenu_quick_deprioritize [ todos, options ] {
+    { label: "Deprioritize", shortcut: ".", action: { deprioritize_selected $todos $options }}
 }
 
 ###### End Section: Todo Menus ######
@@ -103,14 +146,30 @@ def create_menu_quit [ todos, options ] {
 
 ###### Section: Actions ######
 
+def update_select_numbers [ options, number ] {
+    let existing_numbers = $options | get --optional task_selected | default []
+    let new_options = $options | merge { task_selected: ($existing_numbers | append $number)  }
+    $new_options | save-options $in 
+}
+
+def clear_select_numbers [ options ] {
+    $options | update task_selected [] | save-options $in
+}
+
 def edit_visible_columns [ todos, options ] {
     let visible_columns = build-ordered-list-menu "Show columns: " ($options | get-visible-columns-options  ) ($todos | columns)
-    $options | merge { visible_columns : ($visible_columns ++ [i] | uniq)} | save-options $options
+    $options | merge { visible_columns : ($visible_columns ++ [i] | uniq)} | save-options $in
+}
+
+def archive [ todos, options ] {
+    let done_tasks = $todos | where {|t| $t.completed }
+    $done_tasks | archive-todos $options
+    $todos | where {|t| $t.i not-in $done_tasks.i } | save-todos $options
 }
 
 def sort_todos [ todos, options ] {
     let sort_by = build-ordered-list-menu "Sort by:" ($options | get --optional sort_by | default []) ($todos | columns | append "⇅ reverse order" )
-    $options | merge { sort_by: $sort_by} | save $options
+    $options | merge { sort_by: $sort_by} | save-options $in
 }
 
 def select_or_new [choices, choice_label, new_label, question_label] {
@@ -164,7 +223,7 @@ def filter_by_contexts [ todos, options ] {
         }
 }
 
-def modify_tasks [todos, options ] {
+def modify_tasks [todos, options] {
         let visible_todos = $todos | get_visible_todos $options
         let selected_tasks = $visible_todos | input list --multi --display summary
         let action = [ "Mark as done", "Change priority", "Delete", "Add projects", "Add contexts", "Remove projects", "Remove contexts"] | input list "Modify selected tasks:"
@@ -230,6 +289,55 @@ def select_columns [ todos, options ] {
     $todos | select ...$column_paths
 }
 
+def underline_selection [ todos, options ] {
+    let selected = get_selected_task $todos $options
+    $todos | each { |t| if ($t.i in $selected.i) {
+        update summary $"(ansi green_bold)▶ (ansi reset)($t.summary)(ansi green_bold) ◀(ansi reset)"
+    } else { $t } }
+}
+
+def get_selected_task [ todos, options ] {
+    let selected_index = $options | get -o task_selected | default --empty [-1] | str join "" | default --empty "-1" | into int
+    $todos | where { |t| $t.i == $selected_index }
+}
+
+def mark_selected_as_done  [ todos, options ] {
+    get_selected_task $todos $options | each { update completed true } | merge_into_state $todos | save-todos $options
+    reset-selection $options
+}
+
+def delete_selected_task [ todos, options ] {
+    let selected = get_selected_task $todos $options
+    if (["yes", "no"] | input list --fuzzy "Are you sure you want to delete that task?" | $in == "yes") {
+        $todos | where {|t| $t.i not-in $selected.i} | save-todos $options
+    }
+    reset-selection $options
+}
+
+def priority_up_selected [ todos, options ] {
+    let selected = get_selected_task $todos $options
+    let new_priority = seq char A Z | reverse | skip until {|c| $c in $selected.priority } | skip 1 | default --empty ['A'] | first
+    $selected | update priority $new_priority | merge_into_state $todos | save-todos $options
+    reset-selection $options
+}
+
+def priority_down_selected [ todos, options ] {
+    let selected = get_selected_task $todos $options
+    let new_priority = seq char A Z | skip until {|c| $c in $selected.priority} | skip 1 | default --empty ['Z'] | first
+    if ( $new_priority | is-not-empty ) { $selected | update priority $new_priority | merge_into_state $todos | save-todos $options }
+    reset-selection $options
+}
+
+def deprioritize_selected [ todos, options ] {
+    let selected = get_selected_task $todos $options
+    $selected | update priority null | merge_into_state $todos | save-todos $options
+    reset-selection $options
+}
+
+def reset-selection [ options ] {
+    clear_select_numbers $options 
+}
+
 def filter-by-contexts [todos, options] {
     let filters = $options | get-filters-contexts-option
     if ($filters | is-not-empty) {
@@ -270,16 +378,37 @@ def todotui [--folder: path] {
         $visible_todos = filter-by-projects $visible_todos $options
         $visible_todos = sort-todos $visible_todos $options
         $visible_todos = select_columns $visible_todos $options
+        $visible_todos = underline_selection $visible_todos $options
         $visible_todos | print-table
+        if ($options | get-sort-by-options | is-not-empty) {
+            print -e $"(ansi yellow_dimmed) ⇅ Sorting by: [($options | get-sort-by-options | str join ', ')](ansi reset)"
+        }
+        if ($options | get-filters-contexts-option | is-not-empty) {
+            print -e $"(ansi cyan_dimmed) ⛉ Filtering on contexts: [($options | get-filters-contexts-option | str join ', ')](ansi reset)"
+        }
+        if ($options | get-filters-projects-option | is-not-empty) {
+            print -e $"(ansi cyan_dimmed) ⛉ Filtering on projects: [($options | get-filters-projects-option | str join ', ')](ansi reset)"
+        }
 
-        let menu = [
+        let menu = ([
             (create_menu_add_task $todos $options),
             (create_menu_modify_tasks $todos $options),
+            (create_menu_archive $todos $options),
             (create_menu_explore $todos $options),
             (create_menu_options $todos $options),
             (create_menu_quit $todos $options)
         ]
-        action_on_shortcut $menu "Actions"
+        ++ (create_submenu_quick_select $todos $options)
+        | append (create_submenu_clear_select $todos $options)
+        )
+
+        let menu_with_quick_action = if ( get_selected_task $visible_todos $options | is-not-empty) {
+            $menu | insert 0 (create_menu_quick_task $todos $options)
+        } else {
+            $menu
+        }
+
+        action_on_shortcut $menu_with_quick_action "Actions"
     }
 }
 
@@ -296,7 +425,29 @@ def "todo list" [--folder: path] {
 }
 
 def "todo archive" [--folder: path] {
-    print -e "Not yet implemented"    
+    let options = load-options --folder=$folder
+    let todos = load-todos $options
+    archive $todos $options
+}
+
+def "todo done" [--folder: path] {
+    let options = load-options --folder=$folder
+    load-done $options
+}
+
+def "todo done today" [--folder: path] {
+    let options = load-options --folder=$folder
+    load-done $options | where { $in.completion_date == (date now | format date "%Y-%m-%d") }
+}
+
+def "todo done yesterday" [--folder: path] {
+    let options = load-options --folder=$folder
+    load-done $options | where { $in.completion_date == (date now | $in - 1day | format date "%Y-%m-%d") }
+}
+
+def "todo done last-week" [--folder: path] {
+    let options = load-options --folder=$folder
+    load-done $options | where { $in.completion_date >= (date now | $in - 7day | format date "%Y-%m-%d") }
 }
 
 def "print-table" [] {
@@ -354,6 +505,22 @@ def parse-todo [line: string] {
 def load-todos [options] {
     let todo_file = $options | get-todo-path-option 
     open $todo_file
+    | lines
+    | enumerate
+    | each { |item|
+        let parsed = parse-todo $item.item
+        if $parsed != null {
+            {i: ($item.index + 1), ...$parsed}
+        } else {
+            null
+        }
+    }
+    | where {|x| $x != null}
+}
+
+def load-done [options] {
+    let done_file = $options | get-done-path-option
+    open $done_file
     | lines
     | enumerate
     | each { |item|
@@ -427,9 +594,21 @@ export def format-todo [item: record] {
 }
 
 def save-todos [ options ] : list<record> -> nothing {
-    each {|todo| format-todo $todo}
+    let data = $in | each {|todo| format-todo $todo}
+    | where { $in | str trim | is-not-empty }
     | str join "\n"
-    | save -f ($options | get-todo-path-option)
+
+    # saving backup just in case
+    let old_data = open --raw ($options | get-todo-path-option)
+    $old_data | save -f $"($options | get-todo-path-option).bk"
+    $data | save -f ($options | get-todo-path-option)
+}
+
+def archive-todos [ options ] : list<record> -> nothing {
+    let data = $in | each {|todo| format-todo $todo}
+    | where { $in | str trim | is-not-empty }
+    | str join "\n"
+    | save --append ($options | get-archive-path-option)
 }
 
 ###### End Section: parsing / formatting ######
@@ -449,6 +628,13 @@ def get-todo-path-option [] {
     let todo_file = $"($folder)/todo.txt" | path expand
     touch $todo_file
     $todo_file
+}
+
+def get-archive-path-option [] {
+    let folder = $in | get folder
+    let archive_file = $"($folder)/done.txt" | path expand
+    touch $archive_file
+    $archive_file
 }
 
 def get-done-path-option [] {

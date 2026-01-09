@@ -33,4 +33,4 @@ source ~/.config/nushell/utils.nu
 source ~/.config/nushell/sops.nu
 source ~/.config/nushell/tasks.nu
 source ~/.config/nushell/fzf.nu
-source ~/.config/nushell/todotxt.nu
+#source ~/.config/nushell/todotxt.nu

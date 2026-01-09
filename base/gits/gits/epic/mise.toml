@@ -1,4 +1,11 @@
 [env]
+AWS_PROFILE = "eeef-live-devops"
+TASKS_TODO_FILE = "{{config_root}}/tasks/todo.txt"
+TASKS_DONE_FILE = "{{config_root}}/tasks/done.txt"
 
 [env._]
 file = ".env.json"
+
+[tools]
+java = "corretto-11.0.22.7.1"
+node = "24.6.0"

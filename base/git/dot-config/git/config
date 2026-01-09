@@ -20,3 +20,5 @@
 
 [merge]
 	conflictstyle = zdiff3
+[core]
+	autocrlf = input

@@ -23,3 +23,6 @@ fi
 # Locale
 LC_ALL=en_GB.UTF-8
 export LC_ALL
+
+# opam configuration
+test -r /home/animus/.opam/opam-init/init.sh && . /home/animus/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
