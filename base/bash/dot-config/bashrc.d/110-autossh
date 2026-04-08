@@ -1,0 +1,1 @@
+alias ash="autossh -M 0 -q"

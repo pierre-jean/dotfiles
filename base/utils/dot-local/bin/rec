@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -e
+dest=$(ssh $1 zmx list --short | fzf --preview "ssh $1 zmx history {}") || read -p "New zmx session: " dest
+# rename ghostty title
+printf "\e]2;◉ $dest\a"
+autossh -M 0 -q $dest
